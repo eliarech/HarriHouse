@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Backend Spring Boot Application
+  harrihouse-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/harrihouse_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - FILE_UPLOAD_DIR=/app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    networks:
+      - harrihouse-network
+
+  # MySQL Database
+  mysql-db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=harrihouse_db
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: unless-stopped
+    networks:
+      - harrihouse-network
+
+  # PhpMyAdmin per l'amministrazione del database
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=mysql-db
+      - PMA_PORT=3306
+    depends_on:
+      - mysql-db
+    restart: unless-stopped
+    networks:
+      - harrihouse-network
+
+volumes:
+  mysql_data:
+
+networks:
+  harrihouse-network:
+    driver: bridge
