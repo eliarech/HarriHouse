@@ -1,0 +1,344 @@
+<!-- Booking Section -->
+<section class="booking-section">
+  <div class="booking-container">
+    <h2 class="section-title">Book Your Stay</h2>
+    <p class="section-subtitle">Experience luxury in the heart of Cambridge</p>
+    
+    <div class="booking-card-container">
+      <mat-card class="booking-card">
+        <mat-horizontal-stepper [linear]="isLinear" #stepper class="booking-stepper">
+          <!-- Step 1: Choose Dates -->
+          <mat-step [stepControl]="bookingForm.get('dateInfo')!">
+            <ng-template matStepLabel>Choose Dates</ng-template>
+            
+            <form [formGroup]="bookingForm">
+              <div formGroupName="dateInfo">
+                <div class="step-content">
+                  <!-- Date Selection Fields -->
+                  <div class="date-selection">
+                    <div class="date-field">
+                      <label>Check-in Date <span class="required">*</span></label>
+                      <mat-form-field appearance="outline" class="full-width">
+                        <input matInput [matDatepicker]="checkInPicker" formControlName="checkIn" 
+                               [min]="minDate" [max]="maxDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #checkInPicker></mat-datepicker>
+                        <mat-error *ngIf="bookingForm.get('dateInfo.checkIn')?.hasError('required')">
+                          Check-in date is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    
+                    <div class="date-field">
+                      <label>Check-out Date <span class="required">*</span></label>
+                      <mat-form-field appearance="outline" class="full-width">
+                        <input matInput [matDatepicker]="checkOutPicker" formControlName="checkOut" 
+                              [min]="bookingForm.get('dateInfo.checkIn')?.value || minDate" 
+                              [max]="maxDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #checkOutPicker></mat-datepicker>
+                        <mat-error *ngIf="bookingForm.get('dateInfo.checkOut')?.hasError('required')">
+                          Check-out date is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <!-- Property Layout Section -->
+                  <div class="property-layout" *ngIf="nights() > 0">
+                    <h3>Property Layout</h3>
+                    
+                    <!-- Floor plan image -->
+                    <div class="floor-plan-main">
+                      <img src="assets/images/floor-plans.jpg" alt="Floor Plans" class="floor-plans-image">
+                      <div class="floor-labels">
+                        <div class="floor-label">Ground Floor</div>
+                        <div class="floor-label">First Floor</div>
+                        <div class="floor-label">Second Floor</div>
+                      </div>
+                    </div>
+                    
+                    <!-- Floor Cards with Thumbnails -->
+                    <div class="floor-descriptions">
+                      <div class="floor-card">
+                        <div class="floor-card-content">
+                          <div class="floor-thumbnail">
+                            <img src="assets/images/ground-floor-thumb.jpg" alt="Ground Floor">
+                          </div>
+                          <div class="floor-details">
+                            <h4>Ground Floor</h4>
+                            <p>Kitchen, dining area and living space</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="floor-card">
+                        <div class="floor-card-content">
+                          <div class="floor-thumbnail">
+                            <img src="assets/images/first-floor-thumb.jpg" alt="First Floor">
+                          </div>
+                          <div class="floor-details">
+                            <h4>First Floor</h4>
+                            <p>Master bedroom with en-suite</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="floor-card">
+                        <div class="floor-card-content">
+                          <div class="floor-thumbnail">
+                            <img src="assets/images/second-floor-thumb.jpg" alt="Second Floor">
+                          </div>
+                          <div class="floor-details">
+                            <h4>Second Floor</h4>
+                            <p>Two bedrooms and shared bathroom</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Property Images Scrollbar -->
+                    <div class="property-images-container">
+                      <h4>Property Images</h4>
+                      <div class="image-scrollbar">
+                        <div class="scroll-arrow left-arrow" (click)="scrollImages('left')">❮</div>
+                        <div class="image-scroll-container" #scrollContainer>
+                          <div class="image-scroll-content">
+                            <div class="property-image" 
+                                 *ngFor="let image of propertyImages; let i = index"
+                                 [class.active]="i === activeImageIndex"
+                                 (click)="setActiveImage(i)">
+                              <img [src]="image.src" [alt]="image.alt">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="scroll-arrow right-arrow" (click)="scrollImages('right')">❯</div>
+                      </div>
+                      <div class="image-indicators">
+                        <span class="indicator" 
+                              *ngFor="let image of propertyImages; let i = index"
+                              [class.active]="i === activeImageIndex"
+                              (click)="setActiveImage(i)"></span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="step-actions">
+                    <button mat-flat-button color="primary" matStepperNext [disabled]="bookingForm.get('dateInfo')!.invalid">
+                      Continue <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </mat-step>
+          
+          <!-- Step 2: Guest Information -->
+          <mat-step [stepControl]="bookingForm.get('guestInfo')!">
+            <ng-template matStepLabel>Guest Details</ng-template>
+            
+            <form [formGroup]="bookingForm">
+              <div formGroupName="guestInfo">
+                <div class="step-content">
+                  <div class="guests-container">
+                    <h3>How many guests will be staying?</h3>
+                    <p class="info-text">This property accommodates up to 6 guests comfortably</p>
+                    
+                    <div class="guest-inputs">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Adults</mat-label>
+                        <input matInput type="number" formControlName="adults" min="1" max="6">
+                        <mat-hint>Age 13+</mat-hint>
+                        <mat-error *ngIf="bookingForm.get('guestInfo.adults')?.hasError('required')">
+                          At least 1 adult is required
+                        </mat-error>
+                        <mat-error *ngIf="bookingForm.get('guestInfo.adults')?.hasError('min')">
+                          At least 1 adult is required
+                        </mat-error>
+                        <mat-error *ngIf="bookingForm.get('guestInfo.adults')?.hasError('max')">
+                          Maximum 6 adults
+                        </mat-error>
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="outline">
+                        <mat-label>Children</mat-label>
+                        <input matInput type="number" formControlName="children" min="0" max="4">
+                        <mat-hint>Ages 2-12</mat-hint>
+                        <mat-error *ngIf="bookingForm.get('guestInfo.children')?.hasError('max')">
+                          Maximum 4 children
+                        </mat-error>
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="outline">
+                        <mat-label>Pets</mat-label>
+                        <input matInput type="number" formControlName="pets" min="0" max="2">
+                        <mat-hint>Small pets only (extra fee applies)</mat-hint>
+                        <mat-error *ngIf="bookingForm.get('guestInfo.pets')?.hasError('max')">
+                          Maximum 2 pets
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="step-actions">
+                    <button mat-button matStepperPrevious>
+                      <mat-icon>arrow_back</mat-icon> Back
+                    </button>
+                    <button mat-flat-button color="primary" matStepperNext [disabled]="bookingForm.get('guestInfo')!.invalid">
+                      Continue <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </mat-step>
+          
+          <!-- Step 3: Contact Information -->
+          <mat-step [stepControl]="bookingForm.get('contactInfo')!">
+            <ng-template matStepLabel>Contact Information</ng-template>
+            
+            <form [formGroup]="bookingForm">
+              <div formGroupName="contactInfo">
+                <div class="step-content">
+                  <div class="contact-container">
+                    <h3>Your Details</h3>
+                    <p class="info-text">Please provide your contact information for the booking</p>
+                    
+                    <div class="contact-inputs">
+                      <div class="name-inputs">
+                        <mat-form-field appearance="outline">
+                          <mat-label>First Name</mat-label>
+                          <input matInput formControlName="firstName" required>
+                          <mat-error *ngIf="bookingForm.get('contactInfo.firstName')?.hasError('required')">
+                            First name is required
+                          </mat-error>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline">
+                          <mat-label>Last Name</mat-label>
+                          <input matInput formControlName="lastName" required>
+                          <mat-error *ngIf="bookingForm.get('contactInfo.lastName')?.hasError('required')">
+                            Last name is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" formControlName="email" required>
+                        <mat-icon matSuffix>mail</mat-icon>
+                        <mat-error *ngIf="bookingForm.get('contactInfo.email')?.hasError('required')">
+                          Email is required
+                        </mat-error>
+                        <mat-error *ngIf="bookingForm.get('contactInfo.email')?.hasError('email')">
+                          Please enter a valid email address
+                        </mat-error>
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput type="tel" formControlName="phone" required>
+                        <mat-icon matSuffix>phone</mat-icon>
+                        <mat-error *ngIf="bookingForm.get('contactInfo.phone')?.hasError('required')">
+                          Phone number is required
+                        </mat-error>
+                        <mat-error *ngIf="bookingForm.get('contactInfo.phone')?.hasError('pattern')">
+                          Please enter a valid phone number
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="step-actions">
+                    <button mat-button matStepperPrevious>
+                      <mat-icon>arrow_back</mat-icon> Back
+                    </button>
+                    <button mat-flat-button color="primary" matStepperNext [disabled]="bookingForm.get('contactInfo')!.invalid">
+                      Review Booking <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </mat-step>
+          
+          <!-- Step 4: Review and Confirm -->
+          <mat-step>
+            <ng-template matStepLabel>Review & Confirm</ng-template>
+            
+            <div class="step-content">
+              <div class="booking-summary">
+                <h3>Booking Summary</h3>
+                
+                <div class="summary-section">
+                  <div class="summary-row dates">
+                    <div class="detail">
+                      <div class="label">Check-in</div>
+                      <div class="value">{{ bookingForm.get('dateInfo.checkIn')?.value | date:'EEE, MMM d, y' }}</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="detail">
+                      <div class="label">Check-out</div>
+                      <div class="value">{{ bookingForm.get('dateInfo.checkOut')?.value | date:'EEE, MMM d, y' }}</div>
+                    </div>
+                  </div>
+                  
+                  <div class="summary-row">
+                    <div class="label">Nights</div>
+                    <div class="value">{{ nights() }}</div>
+                  </div>
+                  
+                  <div class="summary-row">
+                    <div class="label">Guests</div>
+                    <div class="value">
+                      {{ bookingForm.get('guestInfo.adults')?.value }} Adults
+                      <span *ngIf="bookingForm.get('guestInfo.children')?.value > 0">
+                        , {{ bookingForm.get('guestInfo.children')?.value }} Children
+                      </span>
+                      <span *ngIf="bookingForm.get('guestInfo.pets')?.value > 0">
+                        , {{ bookingForm.get('guestInfo.pets')?.value }} Pets
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <mat-divider></mat-divider>
+                
+                <div class="summary-section">
+                  <div class="summary-row">
+                    <div class="label">{{ baseRate() }} × {{ nights() }} nights</div>
+                    <div class="value">£{{ baseRate() * nights() }}</div>
+                  </div>
+                  
+                  <div class="summary-row">
+                    <div class="label">Cleaning fee</div>
+                    <div class="value">£{{ cleaningFee() }}</div>
+                  </div>
+                  
+                  <div class="summary-row">
+                    <div class="label">Service fee</div>
+                    <div class="value">£{{ serviceFee() }}</div>
+                  </div>
+                  
+                  <div class="summary-row total">
+                    <div class="label">Total</div>
+                    <div class="value">£{{ totalPrice() }}</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="step-actions">
+                <button mat-button matStepperPrevious>
+                  <mat-icon>arrow_back</mat-icon> Back
+                </button>
+                <button mat-flat-button color="primary" class="confirm-button" (click)="onSubmit()" [disabled]="bookingForm.invalid">
+                  Confirm Booking <mat-icon>check</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </mat-card>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+/* Make the gallery scrollable vertically within the page */
+.scrollable-gallery {
+    max-height: 80vh;          /* Or whatever vertical space you want */
+    overflow-y: auto;          /* Enables scrolling */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .gallery-image img {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+  }
+  

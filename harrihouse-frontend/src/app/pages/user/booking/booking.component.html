@@ -1,0 +1,34 @@
+<div class="booking-container">
+  <!-- Price display at the top (e.g., "260 € per night") -->
+  <h2>{{ nightlyRate }} € / notte</h2>
+  
+  <!-- Date Range Inputs -->
+  <mat-form-field appearance="fill" class="date-field">
+    <mat-label>Check-in / Check-out</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [(ngModel)]="checkInDate" [(ngModel)]="checkOutDate">
+      <input matStartDate placeholder="Check-in" [(ngModel)]="checkInDate">
+      <input matEndDate placeholder="Check-out" [(ngModel)]="checkOutDate">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <!-- (Optional) Number of guests, etc. -->
+  <!-- Example text input or select, you can store it in a variable -->
+  <mat-form-field appearance="fill" class="guests-field">
+    <mat-label>Guests</mat-label>
+    <input matInput type="number" min="1" [ngModel]="1">
+  </mat-form-field>
+
+  <!-- Breakdown of costs -->
+  <div class="price-breakdown">
+    <p>{{ nightlyRate }} € x {{ totalNights }} notti = {{ subtotal }} €</p>
+    <p>Costi di pulizia: {{ cleaningFee }} €</p>
+    <p>Costi del servizio: {{ serviceFee }} €</p>
+    <hr>
+    <p><strong>Totale: {{ totalPrice }} €</strong></p>
+  </div>
+
+  <!-- Book button -->
+  <button mat-raised-button color="primary" (click)="bookNow()">Prenota</button>
+</div>

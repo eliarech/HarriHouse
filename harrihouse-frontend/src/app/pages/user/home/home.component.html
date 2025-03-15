@@ -1,0 +1,292 @@
+<!-- home.component.html -->
+<!-- Header Section -->
+<header class="site-header">
+  <div class="container">
+    <div class="logo">
+      <h1>HarriHouse</h1>
+      <p>Your luxury retreat in Cambridge</p>
+    </div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#" class="active">HOME</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">AMENITIES</a></li>
+        <li><a href="#">GALLERY</a></li>
+        <li><a href="#">LOCATION</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Booking Section -->
+<section class="booking-section">
+  <div class="booking-container">
+    <h2 class="section-title">Book Your Stay</h2>
+    <p class="section-subtitle">Experience luxury in the heart of Cambridge</p>
+    
+    <div class="booking-card-container animate-on-scroll">
+      <div class="booking-card">
+        <!-- Stepper Header -->
+        <div class="stepper-container">
+          <div class="stepper-header">
+            <div class="step active">
+              <div class="step-circle">1</div>
+              <div class="step-label">Choose Dates</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-label">Guest Details</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-label">Contact Information</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-label">Review & Confirm</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Date Selection -->
+        <div class="date-selection">
+          <div class="date-field">
+            <label>Check-in Date <span class="required">*</span></label>
+            <div class="input-container">
+              <input type="text" placeholder="MM/DD/YYYY" readonly (click)="openDatePicker('check-in')">
+              <button type="button" class="calendar-button" (click)="openDatePicker('check-in')">
+                <span class="calendar-icon">📅</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="date-field">
+            <label>Check-out Date <span class="required">*</span></label>
+            <div class="input-container">
+              <input type="text" placeholder="MM/DD/YYYY" readonly (click)="openDatePicker('check-out')">
+              <button type="button" class="calendar-button" (click)="openDatePicker('check-out')">
+                <span class="calendar-icon">📅</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Property Layout Section -->
+        <div class="property-layout">
+          <h3>Property Layout</h3>
+          
+          <!-- Floor plan image -->
+          <div class="floor-plan-main animate-on-scroll">
+            <img src="assets/images/floor-plans.jpg" alt="Floor Plans" class="floor-plans-image">
+            <div class="floor-tabs">
+              <button class="floor-tab active" (click)="setActiveFloor('ground')">Ground Floor</button>
+              <button class="floor-tab" (click)="setActiveFloor('first')">First Floor</button>
+              <button class="floor-tab" (click)="setActiveFloor('second')">Second Floor</button>
+            </div>
+          </div>
+          
+          <!-- Floor Cards with Thumbnails -->
+          <div class="floor-descriptions">
+            <div class="floor-card" (click)="setActiveFloor('ground')">
+              <div class="floor-card-content">
+                <div class="floor-thumbnail">
+                  <img src="assets/images/pic3.jpg" alt="Ground Floor">
+                </div>
+                <div class="floor-details">
+                  <h4>Ground Floor</h4>
+                  <p>Kitchen, dining area and living space</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="floor-card" (click)="setActiveFloor('first')">
+              <div class="floor-card-content">
+                <div class="floor-thumbnail">
+                  <img src="assets/images/pic4.jpg" alt="First Floor">
+                </div>
+                <div class="floor-details">
+                  <h4>First Floor</h4>
+                  <p>Master bedroom with en-suite</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="floor-card" (click)="setActiveFloor('second')">
+              <div class="floor-card-content">
+                <div class="floor-thumbnail">
+                  <img src="assets/images/pic5.jpg" alt="Second Floor">
+                </div>
+                <div class="floor-details">
+                  <h4>Second Floor</h4>
+                  <p>Two bedrooms and shared bathroom</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Property Images Scrollbar -->
+          <div class="property-images-container">
+            <h4>Property Images</h4>
+            <div class="image-scrollbar">
+              <div class="scroll-arrow left-arrow" (click)="prevImage()">❮</div>
+              <div class="image-scroll-container">
+                <div class="image-scroll-content">
+                  <div class="property-image" 
+                       *ngFor="let image of propertyImages; let i = index" 
+                       [class.active]="image.active"
+                       (click)="setActiveImage(i)">
+                    <img [src]="image.src" [alt]="image.alt">
+                  </div>
+                </div>
+              </div>
+              <div class="scroll-arrow right-arrow" (click)="nextImage()">❯</div>
+            </div>
+            
+            <!-- Image Indicators -->
+            <div class="image-indicators">
+              <span class="indicator" 
+                    *ngFor="let image of propertyImages; let i = index" 
+                    [class.active]="image.active"
+                    (click)="setActiveImage(i)"></span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons animate-on-scroll">
+          <button type="button" class="continue-btn" (click)="startBooking()">
+            Continue <span class="arrow-icon">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Guest Reviews Section -->
+<section class="reviews-section">
+  <div class="container">
+    <h2>What Our Guests Say</h2>
+    <div class="underline"></div>
+    
+    <div class="reviews-grid">
+      <div class="review-card animate-on-scroll">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"HarriHouse exceeded all of our expectations. The location is perfect for exploring Cambridge, and the house itself is beautifully appointed with everything we needed."</p>
+        <div class="review-author">- James & Family, London</div>
+      </div>
+      <div class="review-card animate-on-scroll" data-delay="200">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"We had a wonderful stay here. The three floors gave our family plenty of space, and being so close to the city center made our Cambridge visit truly special."</p>
+        <div class="review-author">- Sarah T., Manchester</div>
+      </div>
+      <div class="review-card animate-on-scroll" data-delay="400">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"A luxury experience from start to finish. The attention to detail in this property is remarkable, and the hosts are responsive and thoughtful."</p>
+        <div class="review-author">- David & Julia, Edinburgh</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Amenities Section (New) -->
+<section class="amenities-section animate-on-scroll">
+  <div class="container">
+    <h2>Luxury Amenities</h2>
+    <div class="underline"></div>
+    
+    <div class="amenities-grid">
+      <div class="amenity-card">
+        <div class="amenity-icon">🛌</div>
+        <h3>Premium Bedding</h3>
+        <p>Luxury linens and premium mattresses for a restful night's sleep</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🚿</div>
+        <h3>Designer Bathrooms</h3>
+        <p>Modern fixtures with complimentary luxury toiletries</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🍽️</div>
+        <h3>Fully-Equipped Kitchen</h3>
+        <p>High-end appliances and everything needed for gourmet meals</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">📶</div>
+        <h3>High-Speed WiFi</h3>
+        <p>Stay connected with ultrafast broadband throughout the property</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-info">
+        <h3>HarriHouse</h3>
+        <p>A luxury vacation home in the heart of Cambridge, offering comfort and elegance for your perfect getaway.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <div class="underline-small"></div>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Amenities</a></li>
+          <li><a href="#">Gallery</a></li>
+          <li><a href="#">Location</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <div class="underline-small"></div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <p>Cambridge, United Kingdom</p>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <p>infoharrihouse.com</p>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <p>+44 1223 123456</p>
+        </div>
+      </div>
+      
+      <div class="footer-newsletter">
+        <h4>Stay Updated</h4>
+        <div class="underline-small"></div>
+        <p>Subscribe to our newsletter for special offers and updates</p>
+        <form class="newsletter-form" (ngSubmit)="subscribeToNewsletter()">
+          <input type="email" placeholder="Your email address" [(ngModel)]="newsletterEmail" name="email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 HarriHouse. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

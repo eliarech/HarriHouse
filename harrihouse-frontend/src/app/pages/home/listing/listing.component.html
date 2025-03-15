@@ -1,0 +1,10 @@
+<div class="preview-gallery">
+    <!-- Show first 4 images as a preview -->
+    <div class="preview-image" *ngFor="let img of images.slice(0, 4)">
+      <img [src]="img" alt="Preview Image" (click)="openGallery()" />
+    </div>
+  </div>
+  
+  <!-- Button to view all photos -->
+  <button (click)="openGallery()">View All Photos</button>
+  

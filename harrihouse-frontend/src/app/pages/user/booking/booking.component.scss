@@ -1,0 +1,36 @@
+.booking-container {
+    width: 300px;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .booking-container h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+  }
+  
+  .date-field,
+  .guests-field {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .price-breakdown {
+    background: #fafafa;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+  }
+  
+  .price-breakdown p {
+    margin: 0.25rem 0;
+  }
+  
+  button {
+    width: 100%;
+  }
+  
