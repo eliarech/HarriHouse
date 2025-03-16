@@ -122,12 +122,64 @@
                       </div>
                     </div>
                   </div>
-                  
-                  <div class="step-actions">
-                    <button mat-flat-button color="primary" matStepperNext [disabled]="bookingForm.get('dateInfo')!.invalid">
-                      Continue <mat-icon>arrow_forward</mat-icon>
-                    </button>
+
+                  <!-- Right sidebar with pricing and continue button -->
+                  <div class="booking-sidebar">
+                    <div class="price-card">
+                      <div class="price-header">
+                        <span class="price-amount">€160</span>
+                        <span class="price-period">night</span>
+                      </div>
+
+                      <div class="booking-dates">
+                        <div class="date-box">
+                          <div class="date-label">CHECK-IN</div>
+                          <div class="date-value">Mar 16, 2025</div>
+                        </div>
+                        <div class="date-box">
+                          <div class="date-label">CHECK-OUT</div>
+                          <div class="date-value">Mar 21, 2025</div>
+                        </div>
+                      </div>
+
+                      <div class="guests-summary">
+                        <div class="guests-label">GUESTS</div>
+                        <div class="guests-value">1 guest</div>
+                      </div>
+
+                      <div class="price-breakdown">
+                        <div class="price-row">
+                          <span class="row-label">€160 × 5 nights</span>
+                          <span class="row-value">€800</span>
+                        </div>
+                        <div class="price-row">
+                          <span class="row-label">Service fee</span>
+                          <span class="row-value">€136</span>
+                        </div>
+                        <div class="price-row total">
+                          <span class="row-label">Total</span>
+                          <span class="row-value">€936</span>
+                        </div>
+                      </div>
+
+                      <div class="continue-button-container">
+                        <button mat-flat-button color="primary" class="continue-button" matStepperNext>
+                          Continue <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="property-highlights">
+                      <h4>Property Highlights</h4>
+                      <ul class="highlights-list">
+                        <li><span class="highlight-icon">⭐</span> Perfect location in Cambridge</li>
+                        <li><span class="highlight-icon">🔑</span> Self check-in with keypad</li>
+                        <li><span class="highlight-icon">🧹</span> Professional cleaning</li>
+                        <li><span class="highlight-icon">🚗</span> Free parking on premises</li>
+                      </ul>
+                    </div>
                   </div>
+                  
                 </div>
               </div>
             </form>

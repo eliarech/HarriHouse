@@ -1,34 +1,472 @@
-<div class="booking-container">
-  <!-- Price display at the top (e.g., "260 € per night") -->
-  <h2>{{ nightlyRate }} € / notte</h2>
-  
-  <!-- Date Range Inputs -->
-  <mat-form-field appearance="fill" class="date-field">
-    <mat-label>Check-in / Check-out</mat-label>
-    <mat-date-range-input [rangePicker]="picker" [(ngModel)]="checkInDate" [(ngModel)]="checkOutDate">
-      <input matStartDate placeholder="Check-in" [(ngModel)]="checkInDate">
-      <input matEndDate placeholder="Check-out" [(ngModel)]="checkOutDate">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-
-  <!-- (Optional) Number of guests, etc. -->
-  <!-- Example text input or select, you can store it in a variable -->
-  <mat-form-field appearance="fill" class="guests-field">
-    <mat-label>Guests</mat-label>
-    <input matInput type="number" min="1" [ngModel]="1">
-  </mat-form-field>
-
-  <!-- Breakdown of costs -->
-  <div class="price-breakdown">
-    <p>{{ nightlyRate }} € x {{ totalNights }} notti = {{ subtotal }} €</p>
-    <p>Costi di pulizia: {{ cleaningFee }} €</p>
-    <p>Costi del servizio: {{ serviceFee }} €</p>
-    <hr>
-    <p><strong>Totale: {{ totalPrice }} €</strong></p>
+<!-- booking.component.html -->
+<div class="booking-card-container animate-on-scroll">
+  <div class="booking-card">
+    <!-- Left Column: Stepper and Form Content -->
+    <div class="booking-left-column">
+      <!-- Stepper Header -->
+      <div class="stepper-container">
+        <div class="stepper-header" [attr.data-step]="currentStep" role="navigation" aria-label="Booking Process">
+          <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+            <div class="step-circle" aria-label="Step 1" [attr.aria-current]="currentStep === 1 ? 'step' : null">1</div>
+            <div class="step-label">Choose Dates</div>
+          </div>
+          <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+            <div class="step-circle" aria-label="Step 2" [attr.aria-current]="currentStep === 2 ? 'step' : null">2</div>
+            <div class="step-label">Guest Details</div>
+          </div>
+          <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
+            <div class="step-circle" aria-label="Step 3" [attr.aria-current]="currentStep === 3 ? 'step' : null">3</div>
+            <div class="step-label">Contact Information</div>
+          </div>
+          <div class="step" [class.active]="currentStep === 4">
+            <div class="step-circle" aria-label="Step 4" [attr.aria-current]="currentStep === 4 ? 'step' : null">4</div>
+            <div class="step-label">Review & Confirm</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Main Content Area - Changes based on current step -->
+      <div class="booking-steps-content">
+        <!-- Step 1: Choose Dates and Property Images -->
+        <div *ngIf="currentStep === 1" role="tabpanel" aria-labelledby="step-1-tab">
+          <!-- Date Selection - Enhanced Layout -->
+          <div class="date-selection">
+            <div class="date-field">
+              <label for="checkin-date" class="date-label">Check-in Date <span class="required">*</span></label>
+              <div class="date-input-container"(click)="checkinPicker.open()">
+                <input 
+                  id="checkin-date"
+                  class="date-input"
+                  matInput 
+                  [matDatepicker]="checkinPicker" 
+                  placeholder="MM/DD/YYYY" 
+                  [(ngModel)]="checkInDate"
+                  (ngModelChange)="onDateChange()"
+                  required
+                  aria-required="true">
+                <mat-datepicker-toggle matSuffix [for]="checkinPicker" aria-label="Open check-in date picker"></mat-datepicker-toggle>
+                <mat-datepicker #checkinPicker></mat-datepicker>
+              </div>
+            </div>
+            
+            <div class="date-field">
+              <label for="checkout-date" class="date-label">Check-out Date <span class="required">*</span></label>
+              <div class="date-input-container" (click)="checkoutPicker.open()">
+                <input 
+                  id="checkout-date"
+                  class="date-input"
+                  matInput 
+                  [matDatepicker]="checkoutPicker" 
+                  placeholder="MM/DD/YYYY" 
+                  [(ngModel)]="checkOutDate"
+                  (ngModelChange)="onDateChange()"
+                  required
+                  aria-required="true">
+                <mat-datepicker-toggle matSuffix [for]="checkoutPicker" aria-label="Open check-out date picker"></mat-datepicker-toggle>
+                <mat-datepicker #checkoutPicker></mat-datepicker>
+              </div>
+            </div>
+            
+          </div>
+          
+          <!-- Property Images and Features - Side by Side -->
+          <div class="property-info-container">
+            <!-- Property Images Carousel -->
+            <!-- Property Highlights Section -->
+            <div class="property-highlights-container">
+              <h4>Property Highlights</h4>
+              <ul class="highlights-list">
+                <li><span class="highlight-icon">⭐</span> Perfect location in Cambridge</li>
+                <li><span class="highlight-icon">🔑</span> Self check-in with keypad</li>
+                <li><span class="highlight-icon">🧽</span> Professional cleaning</li>
+                <li><span class="highlight-icon">🚘</span> Free parking on premises</li>
+              </ul>
+            </div>
+                        
+            <!-- Property Features - Enhanced -->
+            <div class="property-features">
+              <h4>Property Overview</h4>
+              <div class="features-grid">
+                <div class="feature" data-tooltip="3 separate bedrooms">
+                  <span class="feature-icon">🛏️</span>
+                  <div class="feature-details">
+                    <span class="feature-name">Bedrooms</span>
+                    <span class="feature-value">3</span>
+                  </div>
+                </div>
+                <div class="feature" data-tooltip="2 full bathrooms">
+                  <span class="feature-icon">🚿</span>
+                  <div class="feature-details">
+                    <span class="feature-name">Bathrooms</span>
+                    <span class="feature-value">2</span>
+                  </div>
+                </div>
+                <div class="feature" data-tooltip="Accommodates up to 6 people comfortably">
+                  <span class="feature-icon">👥</span>
+                  <div class="feature-details">
+                    <span class="feature-name">Capacity</span>
+                    <span class="feature-value">Up to 6 guests</span>
+                  </div>
+                </div>
+                <div class="feature" data-tooltip="Spacious 180 m² apartment">
+                  <span class="feature-icon">📏</span>
+                  <div class="feature-details">
+                    <span class="feature-name">Size</span>
+                    <span class="feature-value">180 m²</span>
+                  </div>
+                </div>
+                <div class="feature" data-tooltip="Digital keypad access 24/7">
+                  <span class="feature-icon">🔑</span>
+                  <div class="feature-details">
+                    <span class="feature-name">Self check-in</span>
+                    <span class="feature-value">Available</span>
+                  </div>
+                </div>
+                <div class="feature" data-tooltip="Free parking for 2 vehicles">
+                  <span class="feature-icon">🅿️</span>
+                  <div class="feature-details">
+                    <span class="feature-name">Parking</span>
+                    <span class="feature-value">Free on premises</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2: Guest Details -->
+        <div *ngIf="currentStep === 2" role="tabpanel" aria-labelledby="step-2-tab">
+          <h3>Guest Details</h3>
+          <div class="guest-details-container">
+            <div class="guest-details-column">
+              <div class="form-group">
+                <label for="guest-count" class="form-label">Number of Guests <span class="required">*</span></label>
+                <select 
+                  id="guest-count"
+                  [(ngModel)]="guestCount" 
+                  class="form-control"
+                  (change)="updatePriceCalculation()"
+                  aria-required="true">
+                  <option [value]="1">1 guest</option>
+                  <option [value]="2">2 guests</option>
+                  <option [value]="3">3 guests</option>
+                  <option [value]="4">4 guests</option>
+                  <option [value]="5">5 guests</option>
+                  <option [value]="6">6 guests</option>
+                </select>
+                <div *ngIf="guestCount >= 5" class="validation-message">
+                  For large parties, we recommend contacting us directly for special arrangements.
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="arrival-time" class="form-label">Expected Arrival Time</label>
+                <select id="arrival-time" class="form-control" [(ngModel)]="arrivalTime">
+                  <option value="">Please select an expected arrival time</option>
+                  <option value="12:00-14:00">12:00 PM - 2:00 PM</option>
+                  <option value="14:00-16:00">2:00 PM - 4:00 PM</option>
+                  <option value="16:00-18:00">4:00 PM - 6:00 PM</option>
+                  <option value="18:00-20:00">6:00 PM - 8:00 PM</option>
+                  <option value="20:00-22:00">8:00 PM - 10:00 PM</option>
+                  <option value="late">After 10:00 PM (please call ahead)</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="guest-details-column">
+              <div class="form-group">
+                <label for="special-requests" class="form-label">Special Requests</label>
+                <textarea
+                  id="special-requests"
+                  class="form-control"
+                  rows="4"
+                  [(ngModel)]="specialRequests"
+                  placeholder="Any special requirements or preferences you would like us to know"></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="occasion" class="form-label">Special Occasion</label>
+                <select id="occasion" class="form-control" [(ngModel)]="occasion">
+                  <option value="">Select if applicable</option>
+                  <option value="birthday">Birthday</option>
+                  <option value="anniversary">Anniversary</option>
+                  <option value="honeymoon">Honeymoon</option>
+                  <option value="business">Business Trip</option>
+                  <option value="other">Other</option>
+                </select>
+                <div *ngIf="occasion === 'birthday' || occasion === 'anniversary'" class="validation-message" style="color: #10ac84;">
+                  We'll prepare a special surprise for your celebration!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3: Contact Information -->
+        <div *ngIf="currentStep === 3" role="tabpanel" aria-labelledby="step-3-tab">
+          <h3>Contact Information</h3>
+          <div class="contact-form-container">
+            <div class="form-group">
+              <label for="full-name" class="form-label">Full Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="full-name" 
+                class="form-control" 
+                [(ngModel)]="fullName"
+                #nameInput="ngModel"
+                placeholder="Enter your full name"
+                required
+                [ngClass]="{'ng-invalid': nameInput.invalid && (nameInput.dirty || nameInput.touched)}"
+                aria-required="true">
+              <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="validation-message">
+                Please enter your full name
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="email" 
+                class="form-control"
+                [(ngModel)]="email"
+                #emailInput="ngModel"
+                placeholder="Enter your email address"
+                required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                [ngClass]="{'ng-invalid': emailInput.invalid && (emailInput.dirty || emailInput.touched)}"
+                aria-required="true">
+              <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="validation-message">
+                Please enter a valid email address
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone" class="form-label">Phone Number <span class="required">*</span></label>
+              <input 
+                type="tel" 
+                id="phone" 
+                class="form-control"
+                [(ngModel)]="phone"
+                #phoneInput="ngModel"
+                placeholder="Enter your phone number"
+                required
+                [ngClass]="{'ng-invalid': phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)}"
+                aria-required="true">
+              <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="validation-message">
+                Please enter a valid phone number
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="country" class="form-label">Country/Region <span class="required">*</span></label>
+              <select 
+                id="country" 
+                class="form-control"
+                [(ngModel)]="country"
+                #countryInput="ngModel"
+                required
+                [ngClass]="{'ng-invalid': countryInput.invalid && (countryInput.dirty || countryInput.touched)}"
+                aria-required="true">
+                <option value="">Select your country</option>
+                <option value="FR">France</option>
+                <option value="DE">Germany</option>
+                <option value="GB">United Kingdom</option>
+                <option value="IT">Italy</option>
+                <option value="ES">Spain</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+              </select>
+              <div *ngIf="countryInput.invalid && (countryInput.dirty || countryInput.touched)" class="validation-message">
+                Please select your country
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-preferences">
+            <div class="form-group">
+              <label class="form-label form-checkbox-label">
+                <input type="checkbox" class="form-checkbox" id="marketing-consent" [(ngModel)]="marketingConsent">
+                <span>I would like to receive special offers and updates about HarriHouse</span>
+              </label>
+            </div>
+            
+            <div class="form-group" *ngIf="marketingConsent">
+              <label for="contact-preference" class="form-label">Preferred contact method</label>
+              <select id="contact-preference" class="form-control" [(ngModel)]="contactPreference">
+                <option value="email">Email</option>
+                <option value="phone">Phone</option>
+                <option value="sms">SMS</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 4: Review & Confirm -->
+        <div *ngIf="currentStep === 4" role="tabpanel" aria-labelledby="step-4-tab">
+          <h3>Review & Confirm Your Booking</h3>
+          
+          <div class="review-summary-layout">
+            <div class="summary-section">
+              <h4>Your Stay Details</h4>
+              <div class="summary-item">
+                <span class="summary-label">Check-in:</span>
+                <span class="summary-value">{{ checkInDate | date:'fullDate' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Check-out:</span>
+                <span class="summary-value">{{ checkOutDate | date:'fullDate' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Guests:</span>
+                <span class="summary-value">{{ guestCount }} {{ guestCount === 1 ? 'guest' : 'guests' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Length of stay:</span>
+                <span class="summary-value">{{ numberOfNights }} {{ numberOfNights === 1 ? 'night' : 'nights' }}</span>
+              </div>
+              <div class="summary-item" *ngIf="arrivalTime">
+                <span class="summary-label">Expected arrival:</span>
+                <span class="summary-value">{{ arrivalTime }}</span>
+              </div>
+              <div class="summary-item" *ngIf="specialRequests">
+                <span class="summary-label">Special requests:</span>
+                <span class="summary-value">{{ specialRequests }}</span>
+              </div>
+            </div>
+            
+            <div class="summary-section">
+              <h4>Guest Information</h4>
+              <div class="summary-item" *ngIf="fullName">
+                <span class="summary-label">Name:</span>
+                <span class="summary-value">{{ fullName }}</span>
+              </div>
+              <div class="summary-item" *ngIf="email">
+                <span class="summary-label">Email:</span>
+                <span class="summary-value">{{ email }}</span>
+              </div>
+              <div class="summary-item" *ngIf="phone">
+                <span class="summary-label">Phone:</span>
+                <span class="summary-value">{{ phone }}</span>
+              </div>
+              <div class="summary-item" *ngIf="country">
+                <span class="summary-label">Country:</span>
+                <span class="summary-value">{{ getCountryName(country) }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="summary-section">
+            <h4>Payment Summary</h4>
+            <div class="payment-summary-details">
+              <div class="summary-item">
+                <span class="summary-label">Accommodation:</span>
+                <span class="summary-value">{{ pricePerNight * numberOfNights | currency:'EUR':'symbol':'1.0-0' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Service fee:</span>
+                <span class="summary-value">{{ serviceFee | currency:'EUR':'symbol':'1.0-0' }}</span>
+              </div>
+              <div class="summary-item total-row">
+                <span class="summary-label">Total payment:</span>
+                <span class="summary-value">{{ totalPrice | currency:'EUR':'symbol':'1.0-0' }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="summary-section">
+            <h4>Cancellation Policy</h4>
+            <p class="summary-paragraph">Free cancellation until 7 days before check-in. Cancel before 3:00 PM on {{ getCancellationDate() | date:'mediumDate' }} for a full refund. After that, 50% of the total amount is refundable up to 48 hours before check-in.</p>
+          </div>
+          
+          <div class="summary-section terms-agreement">
+            <div class="form-group">
+              <label class="form-label form-checkbox-label">
+                <input type="checkbox" class="form-checkbox" id="terms-agreement" [(ngModel)]="termsAgreed" required>
+                <span>I agree to the <a href="#">terms and conditions</a> and <a href="#">cancellation policy</a></span>
+              </label>
+              <div *ngIf="!termsAgreed " class="validation-message">
+                Please agree to the terms and conditions to complete your booking
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Column: Booking Summary and Actions -->
+    <div class="booking-right-column">
+      <!-- Price Header -->
+      <div class="price-header">
+        <span class="price-amount">{{ pricePerNight | currency:'EUR':'symbol':'1.0-0' }}</span>
+        <span class="price-night">night</span>
+      </div>
+      
+      <!-- Enhanced Date and Guest Summary -->
+      <div class="date-guest-summary">
+        <div class="date-summary-row">
+          <div class="check-in-col">
+            <span class="summary-label">CHECK-IN</span>
+            <span class="summary-value">{{ checkInDate | date:'MMM d, y' }}</span>
+          </div>
+          <div class="check-out-col">
+            <span class="summary-label">CHECK-OUT</span>
+            <span class="summary-value">{{ checkOutDate | date:'MMM d, y' }}</span>
+          </div>
+        </div>
+        
+        <div class="guests-row">
+          <div>
+            <span class="summary-label">GUESTS</span>
+            <span class="summary-value">{{ guestCount }} {{ guestCount === 1 ? 'guest' : 'guests' }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Enhanced Price Breakdown with hover effects -->
+      <div class="price-breakdown">
+        <div class="price-row">
+          <span>{{ pricePerNight | currency:'EUR':'symbol':'1.0-0' }} × {{ numberOfNights }} nights</span>
+          <span>{{ pricePerNight * numberOfNights | currency:'EUR':'symbol':'1.0-0' }}</span>
+        </div>
+        <div class="price-row" data-tooltip="This covers cleaning and platform fees">
+          <span>Service fee</span>
+          <span>{{ serviceFee | currency:'EUR':'symbol':'1.0-0' }}</span>
+        </div>
+        <div class="price-total">
+          <span>Total</span>
+          <span>{{ totalPrice | currency:'EUR':'symbol':'1.0-0' }}</span>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button 
+          type="button" 
+          class="back-btn" 
+          *ngIf="currentStep > 1" 
+          (click)="prevStep()"
+          aria-label="Go back to previous step">
+          <span class="arrow-icon">←</span> Back
+        </button>
+        <button 
+          type="button" 
+          class="continue-btn" 
+          *ngIf="currentStep < 4" 
+          (click)="nextStep()" 
+          [disabled]="!canProceed()"
+          aria-label="Continue to next step">
+          Continue <span class="arrow-icon">→</span>
+        </button>
+        <button 
+          type="button" 
+          class="book-now-btn" 
+          *ngIf="currentStep === 4" 
+          (click)="completeBooking()"
+          [disabled]="!termsAgreed"
+          aria-label="Complete booking">
+          Complete Booking
+        </button>
+      </div>
+    </div>
   </div>
-
-  <!-- Book button -->
-  <button mat-raised-button color="primary" (click)="bookNow()">Prenota</button>
 </div>
