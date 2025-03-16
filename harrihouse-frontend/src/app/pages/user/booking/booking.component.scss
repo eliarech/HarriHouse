@@ -888,15 +888,6 @@ $border-radius-lg: 16px;
   }
 }
 
-// Fix for date selection arrow
-.date-selection {
-  // Keep existing properties
-  
-  &::after {
-    content: "→"; // Add this to fix the bubble
-    // Keep existing properties
-  }
-}
 
 // Fix the GUESTS label
 .guests-row .summary-label {

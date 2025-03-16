@@ -714,6 +714,309 @@ img {
   }
 }
 
+/* Modern property listing section */
+.property-overview {
+  background-color: #fff;
+  padding: 60px 0;
+  margin-top: -30px;
+  position: relative;
+  z-index: 10;
+}
+
+.property-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.property-header h2 {
+  color: #1a5276;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.property-header .underline {
+  height: 3px;
+  width: 80px;
+  background-color: #e67e22;
+  margin: 0 auto;
+}
+
+.property-description {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  text-align: center;
+  line-height: 1.7;
+  color: #555;
+  font-size: 16px;
+}
+
+/* Property features grid */
+.property-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-title {
+  font-size: 18px;
+  color: #1a5276;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.feature-title i {
+  margin-right: 10px;
+  color: #e67e22;
+  font-size: 20px;
+}
+
+.feature-text {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* View details button */
+.details-button {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.btn-view-details {
+  background-color: #1a5276;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-view-details:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Booking section styling */
+.booking-section {
+  background-color: #f5f8fa;
+  padding: 60px 0;
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.booking-header h2 {
+  color: #1a5276;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.booking-header .underline {
+  height: 3px;
+  width: 80px;
+  background-color: #e67e22;
+  margin: 0 auto;
+}
+
+/* Improved hero section */
+.hero-section {
+  position: relative;
+  height: 600px;
+  background-image: url('/assets/images/pic2.jpg'); /* Using pic2.jpg as requested */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+}
+
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  color: white;
+  font-weight: 700;
+}
+
+.hero-description {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.hero-rating {
+  font-size: 24px;
+  margin-bottom: 30px;
+  
+  .star {
+    color: #e67e22;
+    margin: 0 2px;
+  }
+}
+
+.booking-widget {
+  position: absolute;
+  bottom: -40px; /* Adjusted to ensure visibility */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1000px;
+  z-index: 20; /* Increased z-index */
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  overflow: visible; /* Ensure nothing gets cut off */
+}
+
+.booking-widget-inner {
+  display: flex;
+  height: 80px;
+}
+
+.booking-fields {
+  display: flex;
+  flex: 1;
+}
+
+.booking-field {
+  flex: 1;
+  border-right: 1px solid #eee;
+  padding: 15px 20px;
+  position: relative;
+}
+
+.booking-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.booking-field-input {
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field-icon {
+  color: #999;
+  font-size: 12px;
+}
+
+.booking-submit {
+  width: 180px;
+  display: flex;
+  align-items: stretch;
+}
+
+.btn-book-now {
+  width: 100%;
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.btn-book-now:hover {
+  background-color: #d35400;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .booking-widget-inner {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .booking-fields {
+    flex-direction: column;
+  }
+  
+  .booking-field {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .booking-submit {
+    width: 100%;
+    height: 50px;
+  }
+  
+  .property-features {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-content h1 {
+    font-size: 30px;
+  }
+  
+  .hero-description {
+    font-size: 16px;
+  }
+}
+
+/* Container for consistent width */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
 /* 
 This CSS should be added to your app-booking component's SCSS file
 to ensure the button remains visible.

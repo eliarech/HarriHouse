@@ -18,15 +18,127 @@
   </div>
 </header>
 
-<!-- Booking Section with Compact Design -->
+<!-- Hero Section with Booking Widget -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>LUXURY RETREAT IN THE HEART OF CAMBRIDGE</h1>
+    <p class="hero-description">A historic home beautifully restored with modern comforts, creating an elegant oasis in the middle of the historic city.</p>
+    <div class="hero-rating">
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+    </div>
+  </div>
+  
+  <!-- Modern Booking Widget -->
+  <div class="booking-widget">
+    <div class="booking-widget-inner">
+      <div class="booking-fields">
+        <div class="booking-field">
+          <div class="booking-field-label">Arrival</div>
+          <div class="booking-field-input" (click)="openDatePicker('check-in')">
+            <span>{{ checkOutDate ? (checkOutDate | date:'MM/dd/yyyy') : 'Select date' }}</span>
+            <span class="field-icon">↓</span>
+          </div>
+        </div>
+        
+        <div class="booking-field">
+          <div class="booking-field-label">Departure</div>
+          <div class="booking-field-input" (click)="openDatePicker('check-out')">
+            <span>{{ checkOutDate ? (checkOutDate | date:'MM/dd/yyyy') : 'Select date' }}</span>
+            <span class="field-icon">↓</span>
+          </div>
+        </div>
+        
+        <div class="booking-field">
+          <div class="booking-field-label">Guests</div>
+          <div class="booking-field-input" (click)="openGuestsDropdown()">
+            <span>{{selectedGuests || 1}} {{selectedGuests === 1 ? 'Guest' : 'Guests'}}</span>
+            <span class="field-icon">↓</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="booking-submit">
+        <button class="btn-book-now" (click)="startBooking()">BOOK NOW</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Property Overview Section -->
+<section class="property-overview">
+  <div class="container">
+    <div class="property-header">
+      <h2>A Historic Cambridge Home</h2>
+      <div class="underline"></div>
+    </div>
+    
+    <div class="property-description">
+      <p>Nestled in the heart of Cambridge, our luxury accommodation offers the perfect blend of historic charm and modern comfort. With three spacious bedrooms across three floors, CasaCambridge provides an ideal retreat for families, academic visitors, and tourists alike.</p>
+      <p>Just minutes away from Cambridge University, restaurants, and shops, you'll enjoy the perfect location for exploring all this historic city has to offer.</p>
+    </div>
+    
+    <div class="property-features">
+      <div class="feature-card">
+        <div class="feature-title">
+          <i class="fas fa-map-marker-alt"></i> Perfect Location
+        </div>
+        <div class="feature-text">
+          Central Cambridge location, just minutes from Cambridge University and all major attractions.
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-title">
+          <i class="fas fa-bed"></i> 3 Bedrooms
+        </div>
+        <div class="feature-text">
+          Comfortable sleeping arrangements for up to 6 guests with premium bedding.
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-title">
+          <i class="fas fa-bath"></i> 2 Bathrooms
+        </div>
+        <div class="feature-text">
+          Modern luxury amenities with high-end fixtures and premium toiletries.
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-title">
+          <i class="fas fa-car"></i> Free Parking
+        </div>
+        <div class="feature-text">
+          Convenient parking available on premises, a rare amenity in central Cambridge.
+        </div>
+      </div>
+    </div>
+    
+    <div class="details-button">
+      <a routerLink="/about" class="btn-view-details">VIEW DETAILS</a>
+    </div>
+  </div>
+</section>
+
+<!-- Booking Component Section -->
 <section class="booking-section">
   <div class="container">
+    <div class="booking-header">
+      <h2>Book Your Stay</h2>
+      <div class="underline"></div>
+    </div>
+    
     <div class="booking-main">
       <!-- Booking Component -->
       <div class="booking-card">
         <app-booking></app-booking>
       </div>
-    
     </div>
   </div>
 </section>

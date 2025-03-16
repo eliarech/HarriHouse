@@ -32,7 +32,7 @@ import { BookingComponent } from '../booking/booking.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit,  AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
   
   // Property images for the gallery
@@ -44,13 +44,10 @@ export class HomeComponent implements OnInit,  AfterViewInit {
     { src: 'assets/images/pic5.jpg', alt: 'Kitchen', active: false }
   ];
   
-  // Missing properties that are referenced in the template
+  // Properties for booking
   stepperStep = 1;
   checkInDate: Date | null = null;
   checkOutDate: Date | null = null;
-  
-
-  
   
   // Active image index
   activeImageIndex = 0;
@@ -58,12 +55,21 @@ export class HomeComponent implements OnInit,  AfterViewInit {
   // For newsletter subscription
   newsletterEmail = '';
   
+  // Selected number of guests
+  selectedGuests = 1;
+  
   constructor(private router: Router) {}
 
-  // Add this method
   ngOnInit(): void {
     // This can be empty if you don't need initialization logic
     // Or you can add code that should run when the component initializes
+    
+    // Optionally set default dates for the booking form
+    // const today = new Date();
+    // this.checkInDate = today;
+    // const checkoutDate = new Date();
+    // checkoutDate.setDate(today.getDate() + 5);
+    // this.checkOutDate = checkoutDate;
   }
 
   ngAfterViewInit(): void {
@@ -79,9 +85,18 @@ export class HomeComponent implements OnInit,  AfterViewInit {
   // Open date picker (this would connect to a Material date picker or custom implementation)
   openDatePicker(type: 'check-in' | 'check-out'): void {
     console.log(`Opening ${type} date picker`);
+    // You would implement dialog opening here
+    // For example, using MatDatepicker
   }
-
   
+  // Update selected guests
+  // Keeping this method commented out until needed
+  /*
+  updateGuests(guests: number): void {
+    this.selectedGuests = guests;
+  }
+  */
+
   // Gallery navigation
   nextImage(): void {
     this.propertyImages[this.activeImageIndex].active = false;
@@ -102,10 +117,6 @@ export class HomeComponent implements OnInit,  AfterViewInit {
     this.propertyImages[this.activeImageIndex].active = true;
   }
 
-
-
-
-
   // Subscribe to newsletter
   subscribeToNewsletter(): void {
     if (this.validateEmail(this.newsletterEmail)) {
@@ -125,6 +136,13 @@ export class HomeComponent implements OnInit,  AfterViewInit {
     return emailPattern.test(email);
   }
 
+  openGuestsDropdown(): void {
+    console.log('Opening guests dropdown');
+    // Implement dropdown logic here
+  }
+  
+  
+  
   // Initialize scroll animations
   private initScrollAnimations(): void {
     // Implementation for any scroll-based animations
